@@ -5,6 +5,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"time"
 
@@ -29,7 +30,22 @@ func main() {
 	}
 
 	endpoint := "https://sellingpartnerapi-na.amazon.com"
+	queryUrl, err := url.Parse(endpoint)
+	if err != nil {
+		panic(err)
+	}
 
+	basePath := fmt.Sprintf("/sellers/v1/marketplaceParticipations")
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		panic(err)
+	}
+
+	log.Println(queryUrl)
 	// Run the function immediately
 	makeRequest(endpoint, sp)
 
