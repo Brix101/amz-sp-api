@@ -47,7 +47,7 @@ func main() {
 
 	log.Println(queryUrl)
 	// Run the function immediately
-	makeRequest(endpoint, sp)
+	makeRequest(queryUrl.String(), sp)
 
 	// Create a ticker to trigger the function every hour
 	ticker := time.NewTicker(time.Hour)
@@ -55,13 +55,13 @@ func main() {
 
 	// Run the function every time the ticker ticks
 	for range ticker.C {
-		makeRequest(endpoint, sp)
+		makeRequest(queryUrl.String(), sp)
 	}
 }
 
 func makeRequest(endpoint string, sp *spsdk.SellingPartner) {
 	// Create a new GET request
-	req, err := http.NewRequest("GET", endpoint+"/sellers/v1/marketplaceParticipations", nil)
+	req, err := http.NewRequest("GET", endpoint, nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
 		return
